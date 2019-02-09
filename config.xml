@@ -3,7 +3,7 @@
     <name>binRD</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.1.116:8101" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -27,7 +27,7 @@
         <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
         <icon density="xxhdpi" src="resources/android/icon/drawable-xxhdpi-icon.png" />
         <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
-        <splash density="land-ldpi" src="src/assets/imgs/splash-image.png"  width="300"  />
+        <splash density="land-ldpi" src="src/assets/imgs/splash-image.png" width="300" />
         <splash density="land-mdpi" src="src/assets/imgs/splash-image.png" width="300" />
         <splash density="land-hdpi" src="src/assets/imgs/splash-image.png" width="300" />
         <splash density="land-xhdpi" src="src/assets/imgs/splash-image.png" width="300" />
