@@ -6,10 +6,16 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>search</ion-title>
+    <ion-title>Búsqueda</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-
+  <ion-searchbar (ionInput)="searchSubmit($event)" placeholder="Buscar..."></ion-searchbar>
+  <h2>Categorías</h2>
+  <ion-list no-lines>
+    <button class="cat-name" ion-item *ngFor="let category of categories" (click)="selectCategory(category)">
+      {{ category }}
+    </button> 
+  </ion-list>
 </ion-content>

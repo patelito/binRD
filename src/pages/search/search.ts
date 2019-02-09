@@ -15,7 +15,28 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SearchPage {
 
+  categories: string[];
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.initializeCategories();
+  }
+
+  initializeCategories() {
+    this.categories = [
+      'Accesorios',
+      'Vehiculos',
+      'Inmuebles',
+      'Electrónico',
+      'Hogar'
+    ];
+  }
+
+  selectCategory(category) {
+    console.log('CATEGORY SELECTED', category);
+  }
+
+  searchSubmit(ev: any) {
+    console.log('SEARCH', ev);
   }
 
   ionViewDidLoad() {
