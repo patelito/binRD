@@ -4,14 +4,48 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content class="container-content" >
+<ion-card class="container-card">
+
+  <ion-card-header class="container-card-header">
+    <ion-row class="row-card-header">
+
+      <ion-row class="row-profile-info" >
+        <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg" width="30" height="30"></ion-img>
+        <h3 class="user-name">johndoe</h3>
+      </ion-row>
+
+      <button ion-button icon-only clear >
+        <ion-icon  name="ios-bookmark-outline"></ion-icon>
+      </button>
+    </ion-row>
+  </ion-card-header>
+
+  <img src="https://stmed.net/sites/default/files/frog-wallpapers-25476-6612346.jpg" />
+  <ion-card-content >
+    <ion-row class="row-container-info-buttons">
+      <ion-col class="col-container-info">
+        <ion-card-title class="price-title">
+          RD$ 500,000.00
+        </ion-card-title>
+        <h2 class="description-subtitle">FrogX Mustang</h2>
+      </ion-col>
+
+      <ion-col>
+        <ion-row>
+          <button ion-button icon-only class="button-view">
+            <ion-icon name="md-eye"></ion-icon>
+          </button>
+          <button ion-button icon-only class="button-call">
+            <ion-icon name="call"></ion-icon>
+          </button>
+        </ion-row>
+      </ion-col>
+      
+    </ion-row>
+   
+      
+    
+  </ion-card-content>
+</ion-card>
 </ion-content>
