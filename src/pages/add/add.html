@@ -6,10 +6,41 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>add</ion-title>
+    <ion-title>Nuevo Anuncio</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-list>
 
+    <ion-item>
+      <ion-label color="dark" floating>Titulo</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="dark">Precio RD$</ion-label>
+      <ion-input type="number" placeholder=0.00></ion-input>
+    </ion-item>
+ 
+    <ion-item>
+      <ion-label color="dark" stacked>Descripción</ion-label>
+      <ion-textarea rows="10" placeholder="Describa su articulo lo mas detalladamente posible"></ion-textarea>
+    </ion-item>
+    
+    <ion-item text-wrap>
+      <h2 style="padding-bottom:10px">Multimedia</h2>
+      <button class="media" ion-button clear *ngFor="let media of selectedMedia">
+        <ion-thumbnail>
+          <ion-img [src]="media.thumbnail"></ion-img>
+        </ion-thumbnail>
+      </button>
+      <button  ion-button class="media add" icon-only color="light">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button color="secondary" block>Publicar</button>
+  
 </ion-content>

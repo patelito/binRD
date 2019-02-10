@@ -35,7 +35,7 @@ $app-direction: ltr;
 
 $colors: (
   primary:    #488aff,
-  secondary:  #32db64,
+  secondary:  #2ECC71,
   danger:     #f53d3d,
   light:      #f4f4f4,
   dark:       #222
@@ -52,7 +52,7 @@ $colors: (
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
+$button-md-box-shadow: none;
 
 
 
