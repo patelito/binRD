@@ -9,24 +9,59 @@
     <ion-title>Perfil</ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content padding>
+<ion-content padding force-overscroll=true>
     <ion-grid>
         <ion-row align-items-center>
-            <ion-col col-8>
-              <h2>John Doe</h2>
-              @johndoe
+            <ion-col col-8 class="profile-info">
+              <h2 class ="profile-name">John Doe</h2>
+              <h6>@johndoe</h6>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star"></ion-icon>
+              <ion-icon name="star-half"></ion-icon>
             </ion-col>
             <ion-col col-4 style="text-align: right">
                     <ion-img class="img-profile" src="http://www.gstatic.com/tv/thumb/persons/589228/589228_v9_ba.jpg"></ion-img>
+                    <button ion-button class ="logout-button" color="danger">Log Out</button>
+            </ion-col>
+          </ion-row>
+          <ion-row class="profile-info">
+            <ion-col>
+                <h3 >Contacto</h3>
+                <p class="contact-info">(809) 548-6748</p>
+                <p class="contact-info">jonhdoe@gmail.com</p>
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col>
-                <h3>Contacto</h3>
-                <p>(809) 548-6748</p>
-            </ion-col>
+            <h3>Tus anuncios</h3>
           </ion-row>
     </ion-grid>
-    
+        <ion-card-header class="container-card-header">
+            <ion-row class="row-card-header">
+
+              <ion-row class="row-profile-info" >
+                <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg" width="30" height="30"></ion-img>
+                <h3 class="user-name">johndoe</h3>
+              </ion-row>
+
+              <button ion-button icon-only clear >
+                <ion-icon  name="ios-bookmark-outline"></ion-icon>
+              </button>
+            </ion-row>
+          </ion-card-header>
+
+        <img src="https://stmed.net/sites/default/files/frog-wallpapers-25476-6612346.jpg" />
+
+        <ion-card-content >
+          <ion-row class="row-container-info-buttons">
+            <ion-col class="col-container-info">
+              <ion-card-title class="price-title">
+                RD$ 500,000.00
+              </ion-card-title>
+              <h2 class="description-subtitle">FrogX Mustang</h2>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+
 </ion-content>

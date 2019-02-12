@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { HomePage } from './../home/home';
+import { Component, NgModule } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
 
 /**
  * Generated class for the ProfilePage page.
