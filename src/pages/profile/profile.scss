@@ -40,6 +40,10 @@ page-profile {
       align-items: center;
       justify-content: space-between
     }
+    .container-card-top{
+      position: relative;
+      top: -40px;
+    }
     .row-profile-info {
       align-items: center
     }
