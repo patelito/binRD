@@ -9,8 +9,8 @@
     <ion-title>Perfil</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content padding force-overscroll=true>
-    <ion-grid>
+<ion-content force-overscroll=true>
+    <ion-grid padding>
         <ion-row align-items-center>
             <ion-col col-8 class="profile-info">
               <h2 class ="profile-name">John Doe</h2>
@@ -37,14 +37,13 @@
             <h3>Tus anuncios</h3>
           </ion-row>
     </ion-grid>
+    <ion-card class="container-card container-card-top" >
         <ion-card-header class="container-card-header">
             <ion-row class="row-card-header">
-
               <ion-row class="row-profile-info" >
                 <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg" width="30" height="30"></ion-img>
                 <h3 class="user-name">johndoe</h3>
               </ion-row>
-
               <button ion-button icon-only clear >
                 <ion-icon  name="ios-bookmark-outline"></ion-icon>
               </button>
@@ -63,5 +62,5 @@
             </ion-col>
           </ion-row>
         </ion-card-content>
-
+    </ion-card>
 </ion-content>
