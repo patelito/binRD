@@ -12,6 +12,7 @@ import { SearchPage } from '../pages/search/search';
 import { AddPage } from '../pages/add/add';
 import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { ProfilePage } from '../pages/profile/profile';
+import { Description } from '../pages/description/description';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProfilePage } from '../pages/profile/profile';
     AddPage,
     BookmarksPage,
     ProfilePage,
-    TabsPage
+    TabsPage,
+    Description
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,8 @@ import { ProfilePage } from '../pages/profile/profile';
     AddPage,
     BookmarksPage,
     ProfilePage,
-    TabsPage
+    TabsPage,
+    Description
   ],
   providers: [
     StatusBar,
