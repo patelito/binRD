@@ -3,6 +3,16 @@ page-description {
     align-items: center;
    
   }
+  button.media {
+    height: 100% !important;
+    padding: 0 !important;
+    border-radius: 10%;
+}
+
+button.media.add {
+    min-width:80px;
+    min-height:80px;
+}
   .container-card {
     margin-left: 0px;
     margin-top: 0px;

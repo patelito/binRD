@@ -1,3 +1,54 @@
 page-bookmarks {
-
-}
+    .container-content {
+      justify-content: center;
+      align-items: center;
+     
+    }
+    .container-card {
+      margin-left: 0px;
+      width: 100%;
+      box-shadow: none ;
+    }
+    .container-card-header {
+      height: 55px;
+    }
+    .container-card-content {
+      align-items: center;
+     
+    }
+    .row-card-header {
+      align-items: center;
+      justify-content: space-between
+    }
+    .row-profile-info {
+      align-items: center
+    }
+    .img-profile {
+      border-radius: 50%
+    }
+    .user-name {
+      padding-inline-start: 4px
+    }
+    .price-title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .description-subtitle {
+       font-size: 14px;
+       font-weight: 400;
+    }
+    .button-call {
+      background-color: #2ecc71;
+      width: 50%;
+      box-shadow: none;
+    }
+    .button-view {
+      background-color: #3498db;
+      width: 40%;
+      box-shadow: none;
+    }
+    .row-container-info-buttons {
+      width: 100%;
+    }
+  }
+  

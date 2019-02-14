@@ -1,15 +1,97 @@
-<!--
-  Generated template for the BookmarksPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-  <ion-navbar>
-    <ion-title>bookmarks</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-
-</ion-content>
+    <ion-navbar>
+      <ion-title>Favoritos</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content class="container-content" >
+    <ion-card class="container-card">
+  
+      <ion-card-header class="container-card-header">
+        <ion-row class="row-card-header">
+    
+          <ion-row class="row-profile-info" >
+            <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg" width="30" height="30"></ion-img>
+            <h3 class="user-name">johndoe</h3>
+          </ion-row>
+    
+          <button ion-button icon-only clear >
+            <ion-icon  name="ios-bookmark"></ion-icon>
+          </button>
+        </ion-row>
+      </ion-card-header>
+    
+      <img src="https://cdn-yams.schibsted.com/api/v1/tenants/dd1f88aa-e3e2-450c-9fa9-a03ea59a6bf0/domains/57a9d53a-fe30-4b6f-a4de-d624bd25134b/buckets/a4371201-ebab-47eb-b797-74238f668ee7/images/d6/d63042f8-5384-4238-81db-4e8977ebb14f?rule=progressive" />
+      <ion-card-content >
+        <ion-row class="row-container-info-buttons">
+          <ion-col class="col-container-info">
+            <ion-card-title class="price-title">
+              RD$ 500,000.00
+            </ion-card-title>
+            <h2 class="description-subtitle">FrogX Mustang</h2>
+          </ion-col>
+    
+          <ion-col >
+            <ion-row justify-content-end>
+              <button (click)='open()' ion-button icon-only color="primary" class="button-view">
+                <ion-icon name="md-eye"></ion-icon>
+              </button>
+              <button ion-button icon-only color="secondary" class="button-call">
+                <ion-icon name="call"></ion-icon>
+              </button>
+            </ion-row>
+          </ion-col>
+          
+        </ion-row>
+       
+          
+        
+      </ion-card-content>
+    </ion-card>
+  
+  <ion-card class="container-card">
+  
+    <ion-card-header class="container-card-header">
+      <ion-row class="row-card-header">
+  
+        <ion-row class="row-profile-info" >
+          <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg" width="30" height="30"></ion-img>
+          <h3 class="user-name">johndoe</h3>
+        </ion-row>
+  
+        <button ion-button icon-only clear >
+          <ion-icon  name="ios-bookmark"></ion-icon>
+        </button>
+      </ion-row>
+    </ion-card-header>
+  
+    <img src="https://cdn-yams.schibsted.com/api/v1/tenants/dd1f88aa-e3e2-450c-9fa9-a03ea59a6bf0/domains/57a9d53a-fe30-4b6f-a4de-d624bd25134b/buckets/a4371201-ebab-47eb-b797-74238f668ee7/images/7f/7f10036d-afa2-41cb-9b51-000eee072063?rule=progressive" />
+    <ion-card-content >
+      <ion-row class="row-container-info-buttons">
+        <ion-col class="col-container-info">
+          <ion-card-title class="price-title">
+            RD$ 500,000.00
+          </ion-card-title>
+          <h2 class="description-subtitle">FrogX Mustang</h2>
+        </ion-col>
+  
+        <ion-col >
+          <ion-row justify-content-end>
+            <button (click)='open()' ion-button icon-only color="primary" class="button-view">
+              <ion-icon name="md-eye"></ion-icon>
+            </button>
+            <button ion-button icon-only color="secondary" class="button-call">
+              <ion-icon name="call"></ion-icon>
+            </button>
+          </ion-row>
+        </ion-col>
+        
+      </ion-row>
+     
+        
+      
+    </ion-card-content>
+  </ion-card>
+  
+  </ion-content>
+  

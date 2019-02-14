@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Description } from '../description/description';
 
 /**
  * Generated class for the BookmarksPage page.
@@ -20,6 +21,10 @@ export class BookmarksPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BookmarksPage');
+  }
+
+  open(){
+    this.navCtrl.push(Description);
   }
 
 }
