@@ -5,19 +5,22 @@
   Ionic pages and navigation.
 -->
   <ion-content padding center text-center>
-      <ion-title>Bin Bin</ion-title>
+      <ion-title>Bin</ion-title>
       <ion-list>
+          
+          <h6 class="input-label">Nombre de usuario o mail</h6>
           <ion-item>
-              <ion-input placeholder="Username" [(ngModel)]="username"></ion-input>
+              <ion-input placeholder="Introduce tu mail" [(ngModel)]="username"></ion-input>
           </ion-item>
           
+          <h6 class="input-label">Contraseña</h6>
           <ion-item>
-            <ion-input placeholder="Contraseña" type="password" [(ngModel)]="password"></ion-input>
+            <ion-input placeholder="Introduce tu contraseña" type="password" [(ngModel)]="password"></ion-input>
         </ion-item>
       </ion-list>
 
-      <button ion-button full (click)="login()">Log in</button>
-      <button ion-button full color="light" (click)="goRegister()">Register</button>
+      <button ion-button full color="secondary" (click)="login()">Ingresar</button>
+      <button ion-button full color="light" (click)="goRegister()">Crear cuenta</button>
       
   </ion-content>
   

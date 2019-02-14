@@ -15,7 +15,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class RegisterPage {
 
-  username:string;
+  nombre:string;
+  apellido:string;
+  mail:string;
+  telefono:string;
   password:string;
   repassword:string;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -26,7 +29,7 @@ export class RegisterPage {
   }
 
   register() {
-    if(this.username == null || this.password == null || this.repassword == null)
+    if(this.nombre == null || this.apellido == null || this.telefono == null || this.mail == null || this.password == null || this.repassword == null)
     {
       alert("Completar los campos");
     }
@@ -43,5 +46,9 @@ export class RegisterPage {
 
       }
     }
+  }
+
+  goLogin() {
+    this.navCtrl.pop();
   }
 }

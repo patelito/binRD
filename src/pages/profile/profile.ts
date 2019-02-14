@@ -1,6 +1,7 @@
 import { HomePage } from './../home/home';
 import { Component, NgModule } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, App } from 'ionic-angular';
+import { LoginPage } from '../login/login';
 
 
 /**
@@ -17,11 +18,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ProfilePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  logout() {
+        console.log('logout');
+        this.app.getRootNav().popToRoot();
   }
 
 }

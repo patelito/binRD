@@ -14,6 +14,7 @@ import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { ProfilePage } from '../pages/profile/profile';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register'
+import { Description } from '../pages/description/description';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RegisterPage } from '../pages/register/register'
     ProfilePage,
     LoginPage,
     RegisterPage,
-    TabsPage
+    TabsPage,
+    Description
   ],
   imports: [
     BrowserModule,
@@ -41,7 +43,8 @@ import { RegisterPage } from '../pages/register/register'
     ProfilePage,
     LoginPage,
     RegisterPage,
-    TabsPage
+    TabsPage,
+    Description
   ],
   providers: [
     StatusBar,

@@ -1,16 +1,46 @@
+<ion-header>
+    <ion-navbar>
+      <ion-title>Registrar</ion-title>
+    </ion-navbar>
+  </ion-header>
+
 
 <ion-content padding>
   <ion-list>
+    
+    <h6 class="input-label">Nombre</h6>
     <ion-item>
-      <ion-input placeholder="Username" [(ngModel)]="username"></ion-input>
+      <ion-input placeholder="Introduce tu nombre" [(ngModel)]="nombre"></ion-input>
     </ion-item>
+
+    
+    <h6 class="input-label">Apellido</h6>
     <ion-item>
-      <ion-input placeholder="Contraseña" [(ngModel)]="password" type="password"></ion-input>
+      <ion-input placeholder="Introduce tu apellido" [(ngModel)]="apellido"></ion-input>
     </ion-item>
+
+    
+    <h6 class="input-label">Mail</h6>
+    <ion-item>
+      <ion-input placeholder="Introduce tu mail" [(ngModel)]="mail"></ion-input>
+    </ion-item>
+
+    <h6 class="input-label">Telefono</h6>
+    <ion-item>
+      <ion-input placeholder="Introduce tu telefono" [(ngModel)]="telefono"></ion-input>
+    </ion-item>
+
+    <h6 class="input-label">Contraseña</h6>
+    <ion-item>
+      <ion-input placeholder="Introduce contraseña" [(ngModel)]="password" type="password"></ion-input>
+    </ion-item>
+
+    <h6 class="input-label">Repetir Contraseña</h6>
     <ion-item>
       <ion-input placeholder="Repetir Contraseña" [(ngModel)]="repassword" type="password"></ion-input>
     </ion-item>
   </ion-list>
-
-  <button ion-button full (click)="register()">Register</button>
+  
+  <button ion-button full color="secondary" (click)="register()">Siguiente</button>
+  <button ion-button full color="light" (click)="goLogin()">Ya tengo una cuenta</button>
 </ion-content>
