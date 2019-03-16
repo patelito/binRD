@@ -15,6 +15,12 @@ import { ProfilePage } from '../pages/profile/profile';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register'
 import { Description } from '../pages/description/description';
+import { DatabaseProvider } from '../providers/database/database';
+
+import { IonicStorageModule } from '@ionic/storage';
+import { HttpModule } from '@angular/http';
+import { SQLitePorter } from '@ionic-native/sqlite-porter';
+import { SQLite } from '@ionic-native/sqlite';
 
 @NgModule({
   declarations: [
@@ -31,6 +37,8 @@ import { Description } from '../pages/description/description';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
+    IonicStorageModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -49,7 +57,10 @@ import { Description } from '../pages/description/description';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DatabaseProvider,
+    SQLitePorter,
+    SQLite
   ]
 })
 export class AppModule {}
