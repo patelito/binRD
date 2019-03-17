@@ -7,7 +7,6 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
-import { P } from '@angular/core/src/render3';
 
 @Injectable()
 export class DatabaseProvider { 
@@ -72,8 +71,51 @@ export class DatabaseProvider {
     });
   }
 
+  createUser(nombre, usuario, avatar, phone, password, email) {
+    let data = [nombre, usuario, avatar, phone, password, email]
+    return this.database.executeSql("INSERT INTO users (name, username, avatar, phone, password, email) VALUES (?, ?, ?, ?, ?, ?)", data).then(data => {
+      return data;
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
+  getUser(email, username) {
+    let data = [email, username]
+    return this.database.executeSql("SELECT * FROM users WHERE email = ? OR username = ? ", data).then(data => {
+      return data;
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
+  validateUser(username, password) {
+    let data = [username, password]
+    return this.database.executeSql("SELECT * FROM users WHERE username = ? AND password = ? ", data).then(data => {
+      if(data.rows.length > 0)
+      {
+        this.storage.set('userid', data.rows.item(0).id);
+        return true
+      }
+      return "Usuario o contrasena incorrecto"
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
   getDatabaseState() {
     return this.databaseReady.asObservable();
   }
 
 }
+
+
+/*CREATE TABLE IF NOT EXISTS users(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR,
+  username VARCHAR UNIQUE,
+  avatar VARCHAR,
+  phone VARCHAR,
+  password VARCHAR,
+  email VARCHAR
+);*/

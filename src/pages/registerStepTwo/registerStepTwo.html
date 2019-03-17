@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Registrar</ion-title>
+  </ion-navbar>
+</ion-header>
+    
+    
+<ion-content padding>
+  <ion-list>
+      <ion-thumbnail class="img-container" (click)="getPicture()">
+          <img class="img-profile" [src]="selectedMedia"/>
+      </ion-thumbnail>
+    
+    <h6 class="input-label">Usuario</h6>
+    <ion-item>
+      <ion-input placeholder="Introduce un nombre de usuario" [(ngModel)]="user"></ion-input>
+    </ion-item>
+
+    <h6 class="input-label">Mail</h6>
+    <ion-item>
+      <ion-input placeholder="Introduce tu mail" [(ngModel)]="mail"></ion-input>
+    </ion-item>
+  </ion-list>
+  
+  <button ion-button full color="secondary" (click)="register()">Registrarse</button>
+  <button ion-button full color="light" (click)="goBack()">Volver</button>
+</ion-content>
+    
