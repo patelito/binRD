@@ -22,6 +22,8 @@ import { HttpModule } from '@angular/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite } from '@ionic-native/sqlite';
 
+import { Camera } from '@ionic-native/camera';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -60,7 +62,8 @@ import { SQLite } from '@ionic-native/sqlite';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DatabaseProvider,
     SQLitePorter,
-    SQLite
+    SQLite,
+    Camera
   ]
 })
 export class AppModule {}

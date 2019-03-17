@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { DatabaseProvider } from '../../providers/database/database';
 
 /**
  * Generated class for the SearchPage page.
@@ -15,20 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SearchPage {
 
-  categories: string[];
+  categories =[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.initializeCategories();
+  constructor(public navCtrl: NavController, private dbProvider: DatabaseProvider, public navParams: NavParams) {
+    this.dbProvider.getDatabaseState().subscribe(ready => {
+      if(ready) {
+        this.initializeCategories();
+      }
+    });
   }
 
   initializeCategories() {
-    this.categories = [
-      'Accesorios',
-      'Vehiculos',
-      'Inmuebles',
-      'Electrónico',
-      'Hogar'
-    ];
+    this.dbProvider.getCategories().then(data => {
+      this.categories = data;
+    });
   }
 
   selectCategory(category) {

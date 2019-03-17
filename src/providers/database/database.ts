@@ -7,6 +7,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
+import { P } from '@angular/core/src/render3';
 
 const QUERY_GET_ALL_POSTS = "SELECT posts.name, posts.price, posts.featuredImageData, (SELECT name FROM users WHERE users.id = posts.userId) AS username FROM posts";
 const QUERY_GET_BOOKMARKS = "SELECT posts.featuredImageData, posts.price,posts. name, users.username FROM posts INNER JOIN posts.userId = (users.id = (?))";
@@ -50,12 +51,38 @@ export class DatabaseProvider {
       });
   }
 
+<<<<<<< HEAD
   fillWithDummyData() {
     const user = this.database.executeSql(
       "INSERT INTO users (name, username, avatar, phone, password, email) \
         VALUES ('Jonathan', 'jtaveras', 'https://image.flaticon.com/icons/png/512/236/236832.png', '25622', '123', 'jt@mail.com')"
       ).then( data => { return data}, err => { console.log("ERROR: ", err)} );
       return user;
+=======
+  getCategories() {
+    return this.database.executeSql("SELECT * FROM categories", []).then((data) => {
+      let categories = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          categories.push({ name: data.rows.item(i).name, id: data.rows.item(i).id });
+        }
+      }
+      return categories;
+    }, err => {
+      console.log('Error: ', err);
+      return [];
+    });
+  }
+
+  addPost(title, description, price, categoryId, images) {
+    let data = [title, description, price, categoryId, images[0]];
+    return this.database.executeSql("INSERT INTO posts (name, description, price, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?)", data).then(data => {
+      return data;
+    }, err => {
+      console.log('Error: ', err);
+      return err;
+    });
+>>>>>>> 89728b3c008b2c820141d6a66462dc072547ced9
   }
 
   getDatabaseState() {
