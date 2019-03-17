@@ -62,6 +62,16 @@ export class DatabaseProvider {
     });
   }
 
+  addPost(title, description, price, categoryId, images) {
+    let data = [title, description, price, categoryId, images[0]];
+    return this.database.executeSql("INSERT INTO posts (name, description, price, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?)", data).then(data => {
+      return data;
+    }, err => {
+      console.log('Error: ', err);
+      return err;
+    });
+  }
+
   getDatabaseState() {
     return this.databaseReady.asObservable();
   }
