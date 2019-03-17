@@ -7,6 +7,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
+import { P } from '@angular/core/src/render3';
 
 @Injectable()
 export class DatabaseProvider { 
@@ -44,6 +45,21 @@ export class DatabaseProvider {
           })
           .catch(e => console.error(e));
       });
+  }
+
+  getCategories() {
+    return this.database.executeSql("SELECT * FROM categories", []).then((data) => {
+      let categories = [];
+      if (data.rows.length > 0) {
+        for (var i = 0; i < data.rows.length; i++) {
+          categories.push({ name: data.rows.item(i).name, id: data.rows.item(i).id });
+        }
+      }
+      return categories;
+    }, err => {
+      console.log('Error: ', err);
+      return [];
+    });
   }
 
   getDatabaseState() {
