@@ -8,6 +8,10 @@ import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
 
+const QUERY_GET_ALL_POSTS = "SELECT posts.name, posts.price, posts.featuredImageData, (SELECT name FROM users WHERE users.id = posts.userId) AS username FROM posts";
+const QUERY_GET_BOOKMARKS = "SELECT posts.featuredImageData, posts.price,posts. name, users.username FROM posts INNER JOIN posts.userId = (users.id = (?))";
+const QUERY_GET_DESCRIPTION = "SELECT posts.featuredImageData, posts.price, posts.name, users.username, posts.negotiable FROM posts WHERE posts.id = (?) INNER JOIN posts.userId = (users.id = (?))";
+
 @Injectable()
 export class DatabaseProvider { 
   database: SQLiteObject;
@@ -61,6 +65,14 @@ export class DatabaseProvider {
     })
   }
 
+<<<<<<< HEAD
+  fillWithDummyData() {
+    const user = this.database.executeSql(
+      "INSERT INTO users (name, username, avatar, phone, password, email) \
+        VALUES ('Jonathan', 'jtaveras', 'https://image.flaticon.com/icons/png/512/236/236832.png', '25622', '123', 'jt@mail.com')"
+      ).then( data => { return data}, err => { console.log("ERROR: ", err)} );
+      return user;
+=======
   getCategories() {
     return this.database.executeSql("SELECT * FROM categories", []).then((data) => {
       let categories = [];
@@ -84,6 +96,7 @@ export class DatabaseProvider {
       console.log('Error: ', err);
       return err;
     });
+>>>>>>> 89728b3c008b2c820141d6a66462dc072547ced9
   }
 
   createUser(nombre, usuario, avatar, phone, password, email) {
@@ -130,6 +143,82 @@ export class DatabaseProvider {
   getDatabaseState() {
     return this.databaseReady.asObservable();
   }
+
+  // Get all Posts
+  getAllPost() {
+    return this.database.executeSql("SELECT posts.name, posts.price, posts.featuredImageData, (SELECT name FROM users WHERE users.id = posts.userId) AS username FROM posts").then( data => {
+        let posts = [];
+        if ( data.length ){
+          for (let i = 0; i < data.length; i++) {
+            posts.push(
+              { 
+                title: data.rows.item(i).name, 
+                price: data.rows.item(i).price, 
+                image: data.rows.item(i).featuredImageData,
+                username: data.rows.item(i).username,
+              })
+          }
+        }
+        return posts;
+      }, err => {
+        console.log('Error fetching posts!: ', err)
+        return [];
+      });
+  };
+
+  // Get bookmarks from user
+  getBookmarks( idUser ) {
+    const dataParam = [ idUser ];
+    return this.database.executeSql(
+      QUERY_GET_BOOKMARKS,
+      dataParam
+    ).then(data => {
+      let bookmarks = [];
+      if (data.length) {
+        for (let i = 0; i < data.length; i++) {
+          bookmarks.push(
+            {
+              title: data.rows.item(i).name,
+              price: data.rows.item(i).price,
+              image: data.rows.item(i).featuredImageData,
+              username: data.rows.item(i).username,
+            })
+        }
+      }
+      return bookmarks;
+    }, err => {
+      console.log('Error fetching bookmarks!: ', err)
+      return [];
+    }); 
+  }
+
+  // Get description from a specific posts
+  getDescription( idPost, idUserPost ) {
+    const dataParam = [idPost, idUserPost];
+    return this.database.executeSql(
+      QUERY_GET_DESCRIPTION,
+      dataParam
+    ).then(data => {
+      let description = [];
+      if (data.length) {
+        for (let i = 0; i < data.length; i++) {
+          description.push(
+            {
+              title: data.rows.item(i).name,
+              negotiable: data.rows.item(i).negotiable,
+              price: data.rows.item(i).price,
+              image: data.rows.item(i).featuredImageData,
+              username: data.rows.item(i).username,
+            })
+        }
+      }
+      return description;
+    }, err => {
+      console.log('Error fetching description!: ', err)
+      return [];
+    });
+  }
+
 
 }
 
