@@ -8,9 +8,18 @@ import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
 
-const QUERY_GET_ALL_POSTS = "SELECT posts.name, posts.price, posts.featuredImageData, (SELECT name FROM users WHERE users.id = posts.userId) AS username FROM posts";
-const QUERY_GET_BOOKMARKS = "SELECT posts.featuredImageData, posts.price,posts. name, users.username FROM posts INNER JOIN posts.userId = (users.id = (?))";
+// TODO: Get username in posts
+const QUERY_GET_ALL_POSTS = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id";
+// const QUERY_GET_BOOKMARKS = " ";
 const QUERY_GET_DESCRIPTION = "SELECT posts.featuredImageData, posts.price, posts.name, users.username, posts.negotiable FROM posts WHERE posts.id = (?) INNER JOIN posts.userId = (users.id = (?))";
+const QUERY_GET_ALL_CATEGORIES = "SELECT * FROM categories";
+const QUEY_INSERT_NEW_POST = "INSERT INTO posts (name, description, price, userId, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?, ?)";
+const QUERY_GET_POSTS_BY_IDS = "SELECT posts.name, posts.price, posts.featuredImageData, users.username FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (?)";
+const QUERY_GET_MULTIMEDIA_FROM_POST = "SELECT mediaData FROM multimedia WHERE multimedia.postId = (?)";
+const QUERY_GET_POST = "SELECT posts.name, posts.price, posts.description, posts.featuredImageData, users.username, users.avatar, users.phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id = (?)";
+const QUERY_GET_POSTS_BOOKMARKED_BY_USER = "SELECT postId FROM bookmarks WHERE userId = (?)";
+
+const TEST_USER = 1;
 
 @Injectable()
 export class DatabaseProvider { 
@@ -21,7 +30,7 @@ export class DatabaseProvider {
     this.databaseReady = new BehaviorSubject(false);
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'bin.db',
+        name: 'binbin.db',
         location: 'default'
       })
       .then((db: SQLiteObject) => {
@@ -65,8 +74,9 @@ export class DatabaseProvider {
     })
   }
 
+  // Get categories
   getCategories() {
-    return this.database.executeSql("SELECT * FROM categories", []).then((data) => {
+    return this.database.executeSql(QUERY_GET_ALL_CATEGORIES, []).then((data) => {
       let categories = [];
       if (data.rows.length > 0) {
         for (var i = 0; i < data.rows.length; i++) {
@@ -79,10 +89,12 @@ export class DatabaseProvider {
       return [];
     });
   }
-
+  
+  // Add new post
   addPost(title, description, price, categoryId, images) {
-    let data = [title, description, price, categoryId, images[0]];
-    return this.database.executeSql("INSERT INTO posts (name, description, price, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?)", data).then(data => {
+    let data = [title, description, price, TEST_USER, categoryId, images[0]];
+    return this.database.executeSql(QUEY_INSERT_NEW_POST, data).then(data => {
+      console.log(data.rows)
       return data;
     }, err => {
       console.log('Error: ', err);
@@ -137,16 +149,19 @@ export class DatabaseProvider {
 
   // Get all Posts
   getAllPost() {
-    return this.database.executeSql("SELECT posts.name, posts.price, posts.featuredImageData, (SELECT name FROM users WHERE users.id = posts.userId) AS username FROM posts").then( data => {
+    return this.database.executeSql(QUERY_GET_ALL_POSTS, []).then( data => {
         let posts = [];
-        if ( data.length ){
-          for (let i = 0; i < data.length; i++) {
+        if ( data.rows.length > 0 ){
+          for (var i = 0; i < data.rows.length; i++) {
             posts.push(
               { 
+                postId: data.rows.item(i).id,
                 title: data.rows.item(i).name, 
                 price: data.rows.item(i).price, 
                 image: data.rows.item(i).featuredImageData,
                 username: data.rows.item(i).username,
+                avatar: data.rows.item(i).avatar,
+                phone: data.rows.item(i).phone
               })
           }
         }
@@ -158,29 +173,128 @@ export class DatabaseProvider {
   };
 
   // Get bookmarks from user
-  getBookmarks( idUser ) {
-    const dataParam = [ idUser ];
+  // getBookmarks( idUser ) {
+  //   const dataParam = [ idUser ];
+  //   return this.database.executeSql(
+  //     QUERY_GET_BOOKMARKS,
+  //     dataParam
+  //   ).then(data => {
+  //     let bookmarks = [];
+  //     if (data.rows.length) {
+  //       for (let i = 0; i < data.rows.length; i++) {
+  //         bookmarks.push(
+  //           {
+  //             title: data.rows.item(i).name,
+  //             price: data.rows.item(i).price,
+  //             image: data.rows.item(i).featuredImageData,
+  //             username: data.rows.item(i).username,
+  //           })
+  //       }
+  //     }
+  //     return bookmarks;
+  //   }, err => {
+  //     console.log('Error fetching bookmarks!: ', err)
+  //     return [];
+  //   }); 
+  // }
+
+  // Get post by with specific ids
+  getPostsByIds( arrIds ){
+    let data = [arrIds.toString()];
     return this.database.executeSql(
-      QUERY_GET_BOOKMARKS,
-      dataParam
-    ).then(data => {
-      let bookmarks = [];
-      if (data.length) {
-        for (let i = 0; i < data.length; i++) {
-          bookmarks.push(
+      QUERY_GET_POSTS_BY_IDS,
+      data
+    ).then( data => {
+      let posts = [];
+      if (data.rows.length) {
+        for (let i = 0; i < data.rows.length; i++) {
+          posts.push(
             {
               title: data.rows.item(i).name,
               price: data.rows.item(i).price,
               image: data.rows.item(i).featuredImageData,
               username: data.rows.item(i).username,
+              phoneSeller: data.rows.item(i).phone,
             })
         }
       }
-      return bookmarks;
+      return posts;
     }, err => {
-      console.log('Error fetching bookmarks!: ', err)
+      console.log('Error fetching posts: ', err);
       return [];
-    }); 
+    })
+  }
+
+  // Get multimedias fom post
+  getMultimedias( postId ) {
+    const data = [ postId ]; 
+    return this.database.executeSql(
+      QUERY_GET_MULTIMEDIA_FROM_POST,
+      data
+    ).then( data => {
+      console.log("MEDIA: ", data)
+      let multimedia = [];
+      if (data.rows.length) {
+        for (let i = 0; i < data.rows.length; i++) {
+          multimedia.push(
+          {
+            image: data.rows.item(i).mediaData,
+          })
+        }
+      };
+      return multimedia;
+    })
+  };
+
+  // Get specific post
+  getPost( postId ){
+    console.log("POSTIDD: ", postId)
+    let data = [postId];
+    return this.database.executeSql(
+      QUERY_GET_POST,
+      data
+    ).then( data => {
+      let post = {};
+      let arrPost = []
+      if (data.rows.length) {
+        for (let i = 0; i < data.rows.length; i++) {
+          arrPost.push(
+            {
+              title: data.rows.item(i).name,
+              description: data.rows.item(i).description,
+              price: data.rows.item(i).price,
+              image: data.rows.item(i).featuredImageData,
+              username: data.rows.item(i).username,
+              avatar: data.rows.item(i).avatar,
+            })
+        }
+        post = arrPost[0];
+      }
+      return post;
+    }, err => {
+      console.log('Error fetching posts: ', err);
+      return [];
+    })
+  }
+
+  // Get post bookmarked from a user
+  getPostsBookmarked( idUser ) {
+    const data = [ idUser ];
+    return this.database.executeSql(
+      QUERY_GET_POSTS_BOOKMARKED_BY_USER, 
+      data
+    ).then( data => {
+      let posts = [];
+      if( data.rows.length ) {
+        for (let i = 0; i < data.rows.length; i++) {
+          posts[i] = data.rows.item(i).postId;
+        }
+      }
+      return posts;
+    }, err => {
+      console.log('Error fetching bookmarks');
+      return [];
+    })
   }
 
   // Get description from a specific posts
@@ -191,8 +305,8 @@ export class DatabaseProvider {
       dataParam
     ).then(data => {
       let description = [];
-      if (data.length) {
-        for (let i = 0; i < data.length; i++) {
+      if (data.rows.length) {
+        for (let i = 0; i < data.rows.length; i++) {
           description.push(
             {
               title: data.rows.item(i).name,
