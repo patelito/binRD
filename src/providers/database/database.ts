@@ -45,6 +45,21 @@ export class DatabaseProvider {
           .catch(e => console.error(e));
       });
   }
+  getUserByUserId(userId: number){
+    let data = [userId];
+    return this.database.executeSql("SELECT * FROM USERS WHERE id =  (?)", data).then(data => {
+      return {id: data.rows.item(0).id,
+                    name: data.rows.item(0).name, 
+                    username: data.rows.item(0).username, 
+                    avatar: data.rows.item(0).avatar,
+                    phone: data.rows.item(0).phone,
+                    password: data.rows.item(0).password,
+                    email: data.rows.item(0).email};
+    }).catch(err => {
+      console.log("It does not work", err);
+      return err
+    })
+  }
 
   getCategories() {
     return this.database.executeSql("SELECT * FROM categories", []).then((data) => {
@@ -74,6 +89,15 @@ export class DatabaseProvider {
   createUser(nombre, usuario, avatar, phone, password, email) {
     let data = [nombre, usuario, avatar, phone, password, email]
     return this.database.executeSql("INSERT INTO users (name, username, avatar, phone, password, email) VALUES (?, ?, ?, ?, ?, ?)", data).then(data => {
+      return data;
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
+  editUser(id, nombre, usuario, avatar, phone, password, email){
+    let data = [nombre, usuario, avatar, phone, password, email, id];
+    return this.database.executeSql("UPDATE users SET name = ?, usuername = ?, avatar = ?, phone = ?, password = ?, email = ? WHERE id = ? ").then(data => {
       return data;
     }, err => {
       console.log("Error: ", err)
