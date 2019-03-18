@@ -30,9 +30,9 @@ export class Description {
     this.databaseprovider.getPost(this.postId).then( data => {
       this.post = data;
     })
-    // this.databaseprovider.getMultimedias(this.postId).then(data => {
-    //   this.multimedia = data;
-    // })
+    this.databaseprovider.getMultimedias(this.postId).then(data => {
+      this.multimedia = data;
+    })
   }
 
   contactSeller( phone ) {

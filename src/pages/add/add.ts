@@ -5,6 +5,8 @@ import { IfObservable } from 'rxjs/observable/IfObservable';
 
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
+import { Description } from '../description/description';
+
 @IonicPage()
 @Component({
   selector: 'page-add',
@@ -76,6 +78,12 @@ export class AddPage {
     this.dbProvider.addPost(this.title, this.description, 
       this.price, this.selectedCategory, this.selectedMedia).then(d => {
         alert('Publicación realizada exitosamente!')
+        this.title = '';
+        this.price = 0;
+        this.description = '';
+        this.selectedCategory = 0;
+        this.selectedMedia = [];
+        this.navCtrl.push(Description, { postId: d.insertId });
       });
   }
 

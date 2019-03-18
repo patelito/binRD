@@ -4,9 +4,6 @@ import { CallNumber } from '@ionic-native/call-number';
 import { Description } from '../description/description';
 import { DatabaseProvider } from '../../providers/database/database';
 
-// Remove this when user is in local storage
-const ACTUAL_USER = 1;
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -18,6 +15,10 @@ export class HomePage {
 
   constructor(public navCtrl: NavController, private databaseprovider: DatabaseProvider, public callNumber: CallNumber) {
     
+    
+  }
+
+  ionViewDidEnter() {
     this.databaseprovider.getDatabaseState().subscribe( rdy => {
       if( rdy ) {
         // return postSearch ? postSearch :this.loadData()

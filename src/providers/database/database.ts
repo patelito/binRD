@@ -9,17 +9,16 @@ import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
 
 // TODO: Get username in posts
-const QUERY_GET_ALL_POSTS = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id";
+const QUERY_GET_ALL_POSTS = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id ORDER BY posts.id DESC";
 // const QUERY_GET_BOOKMARKS = " ";
 const QUERY_GET_DESCRIPTION = "SELECT posts.featuredImageData, posts.price, posts.name, users.username, posts.negotiable FROM posts WHERE posts.id = (?) INNER JOIN posts.userId = (users.id = (?))";
 const QUERY_GET_ALL_CATEGORIES = "SELECT * FROM categories";
 const QUEY_INSERT_NEW_POST = "INSERT INTO posts (name, description, price, userId, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?, ?)";
-const QUERY_GET_POSTS_BY_IDS = "SELECT posts.name, posts.price, posts.featuredImageData, users.username FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (?)";
+const QUERY_INSERT_MEDIA = "INSERT INTO multimedia (postId, mediaData) VALUES (?, ?);";
+const QUERY_GET_POSTS_BY_IDS = "SELECT posts.name, posts.price, posts.featuredImageData, users.username FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (?) ORDER BY posts.id DESC";
 const QUERY_GET_MULTIMEDIA_FROM_POST = "SELECT mediaData FROM multimedia WHERE multimedia.postId = (?)";
 const QUERY_GET_POST = "SELECT posts.name, posts.price, posts.description, posts.featuredImageData, users.username, users.avatar, users.phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id = (?)";
 const QUERY_GET_POSTS_BOOKMARKED_BY_USER = "SELECT postId FROM bookmarks WHERE userId = (?)";
-
-const TEST_USER = 1;
 
 @Injectable()
 export class DatabaseProvider { 
@@ -92,14 +91,27 @@ export class DatabaseProvider {
   
   // Add new post
   addPost(title, description, price, categoryId, images) {
-    let data = [title, description, price, TEST_USER, categoryId, images[0]];
-    return this.database.executeSql(QUEY_INSERT_NEW_POST, data).then(data => {
-      console.log(data.rows)
-      return data;
-    }, err => {
-      console.log('Error: ', err);
-      return err;
+    return this.storage.get('userid').then(uid => {
+      let data = [title, description, price, uid, categoryId, images[0]];
+      return this.database.executeSql(QUEY_INSERT_NEW_POST, data).then(data => {
+        console.log(data)
+        
+        for(let i=0; i<images.length; i++) {
+          this.database.executeSql(QUERY_INSERT_MEDIA, [data.insertId, images[i]]).then(d=> {
+            console.log('media', d);
+          }, err=> {
+            console.error('errmedia', err);
+            return err;
+          });
+        }
+       
+        return data;
+      }, err => {
+        console.log('Error: ', err);
+        return err;
+      });
     });
+    
   }
 
   createUser(nombre, usuario, avatar, phone, password, email) {
