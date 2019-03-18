@@ -1,12 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Publicaciones</ion-title>
+    <ion-title>{{pageTitle || 'Publicaciones'}}</ion-title>
   </ion-navbar>
 </ion-header>
 <ion-content class="container-content">
 <ion-list>
-
-  <ion-card class="container-card" *ngFor="let post of posts">
+  <ion-card class="container-card" *ngFor="let post of posts; let i = index">
 
     <ion-card-header class="container-card-header">
       <ion-row class="row-card-header">
@@ -17,13 +16,13 @@
           <h3 class="user-name">{{post.username}}</h3>
         </ion-row>
 
-        <button ion-button icon-only clear>
-          <ion-icon name="ios-bookmark"></ion-icon>
+        <button ion-button (click)="toggleBookmark(i)" icon-only clear>
+          <ion-icon name="{{bookmarked[i] ? 'ios-bookmark' : 'ios-bookmark-outline'}}"></ion-icon>
         </button>
       </ion-row>
     </ion-card-header>
 
-    <img src={{post.image}} />
+    <img [src]="post.image" />
     <ion-card-content>
       <ion-row class="row-container-info-buttons">
         <ion-col class="col-container-info">

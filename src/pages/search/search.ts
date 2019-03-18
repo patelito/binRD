@@ -18,6 +18,7 @@ import { HomePage } from '../home/home';
 export class SearchPage {
 
   categories =[];
+  searchText: string;
 
   constructor(public navCtrl: NavController, private dbProvider: DatabaseProvider, public navParams: NavParams) {
     this.dbProvider.getDatabaseState().subscribe(ready => {
@@ -35,12 +36,12 @@ export class SearchPage {
 
   selectCategory(category) {
     console.log('CATEGORY SELECTED', category);
-    this.navCtrl.push(HomePage, {catId: category.id});
-    console.log('after push');
+    this.navCtrl.push(HomePage, {catId: category.id, pageTitle: category.name});
   }
 
   searchSubmit(ev: any) {
-    console.log('SEARCH', ev);
+    console.log('SEARCH', this.searchText);
+    this.navCtrl.push(HomePage, {search: this.searchText, pageTitle: 'Resultados'});
   }
 
   ionViewDidLoad() {

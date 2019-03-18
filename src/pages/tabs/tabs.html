@@ -2,6 +2,6 @@
     <ion-tab [root]="tabHomeRoot" tabIcon="home"></ion-tab>
     <ion-tab [root]="tabSearchRoot" tabIcon="search"></ion-tab>
     <ion-tab [root]="tabAddRoot" tabIcon="add-circle"></ion-tab>
-    <ion-tab [root]="tabBookmarksRoot" tabIcon="bookmark"></ion-tab>
+    <ion-tab [root]="tabBookmarksRoot" [rootParams]="{onlyBookmarks: true, pageTitle: 'Bookmarks'}" tabIcon="bookmark"></ion-tab>
     <ion-tab [root]="tabProfileRoot" tabIcon="person"></ion-tab>
   </ion-tabs>

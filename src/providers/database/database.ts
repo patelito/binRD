@@ -10,7 +10,6 @@ import { Storage } from '@ionic/storage';
 
 // TODO: Get username in posts
 const QUERY_GET_ALL_POSTS = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id ORDER BY posts.id DESC";
-// const QUERY_GET_BOOKMARKS = " ";
 const QUERY_GET_DESCRIPTION = "SELECT posts.featuredImageData, posts.price, posts.name, users.username, posts.negotiable FROM posts WHERE posts.id = (?) INNER JOIN posts.userId = (users.id = (?))";
 const QUERY_GET_ALL_CATEGORIES = "SELECT * FROM categories";
 const QUEY_INSERT_NEW_POST = "INSERT INTO posts (name, description, price, userId, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?, ?)";
@@ -20,6 +19,8 @@ const QUERY_GET_MULTIMEDIA_FROM_POST = "SELECT mediaData FROM multimedia WHERE m
 const QUERY_GET_POST = "SELECT posts.name, posts.price, posts.description, posts.featuredImageData, users.username, users.avatar, users.phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id = (?)";
 const QUERY_GET_POSTS_BOOKMARKED_BY_USER = "SELECT postId FROM bookmarks WHERE userId = (?)";
 const QUERY_POSTS_BY_CATEGORY = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.categoryId = (?) ORDER BY posts.id DESC";
+const QUERY_POSTS_BY_NAME = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.name LIKE (?) ORDER BY posts.id DESC";
+const QUERY_BOOKMARKED_POST_RES = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (SELECT postId FROM bookmarks WHERE userId = (?)) ORDER BY posts.id DESC";
 
 @Injectable()
 export class DatabaseProvider { 
@@ -92,6 +93,56 @@ export class DatabaseProvider {
 
   getPostsByCategory(catId) {
     return this.database.executeSql(QUERY_POSTS_BY_CATEGORY, [catId]).then( data => {
+      let posts = [];
+      if ( data.rows.length > 0 ){
+        for (var i = 0; i < data.rows.length; i++) {
+          posts.push(
+            { 
+              postId: data.rows.item(i).id,
+              title: data.rows.item(i).name, 
+              price: data.rows.item(i).price, 
+              image: data.rows.item(i).featuredImageData,
+              username: data.rows.item(i).username,
+              avatar: data.rows.item(i).avatar,
+              phone: data.rows.item(i).phone
+            })
+        }
+      }
+      console.log('posts res', posts);
+      return posts;
+    }, err => {
+      console.log('Error fetching posts!: ', err)
+      return [];
+    });
+  }
+
+  getBookmarkedPostsResult(userId) {
+    return this.database.executeSql(QUERY_BOOKMARKED_POST_RES, [userId]).then( data => {
+      let posts = [];
+      if ( data.rows.length > 0 ){
+        for (var i = 0; i < data.rows.length; i++) {
+          posts.push(
+            { 
+              postId: data.rows.item(i).id,
+              title: data.rows.item(i).name, 
+              price: data.rows.item(i).price, 
+              image: data.rows.item(i).featuredImageData,
+              username: data.rows.item(i).username,
+              avatar: data.rows.item(i).avatar,
+              phone: data.rows.item(i).phone
+            })
+        }
+      }
+      console.log('posts res', posts);
+      return posts;
+    }, err => {
+      console.log('Error fetching posts!: ', err)
+      return [];
+    });
+  }
+
+  getPostsByName(name) {
+    return this.database.executeSql(QUERY_POSTS_BY_NAME, [`%${name}%`]).then( data => {
       let posts = [];
       if ( data.rows.length > 0 ){
         for (var i = 0; i < data.rows.length; i++) {
@@ -325,13 +376,33 @@ export class DatabaseProvider {
       let posts = [];
       if( data.rows.length ) {
         for (let i = 0; i < data.rows.length; i++) {
-          posts[i] = data.rows.item(i).postId;
+          posts.push(data.rows.item(i).postId);
         }
       }
       return posts;
     }, err => {
       console.log('Error fetching bookmarks');
       return [];
+    })
+  }
+
+  setBookmarked(userId, postId, setBookmarked) {
+    let query = ''
+    if(setBookmarked) {
+      query = 'INSERT INTO bookmarks(userId, postId) VALUES (?, ?)'
+    } else {
+      query = 'DELETE FROM bookmarks WHERE userId = (?) AND postId = (?)';
+    }
+
+    return this.database.executeSql(
+      query, 
+      [userId, postId]
+    ).then( data => {
+      console.log('BOOKMARK', userId, postId, setBookmarked);
+      return data;
+    }, err => {
+      console.error('Error setting bookmark', err);
+      return err;
     })
   }
 

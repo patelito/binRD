@@ -14,7 +14,7 @@ export class TabsPage {
   tabHomeRoot = HomePage;
   tabSearchRoot = SearchPage;
   tabAddRoot = AddPage;
-  tabBookmarksRoot = BookmarksPage;
+  tabBookmarksRoot = HomePage;
   tabProfileRoot = ProfilePage;
 
   constructor() {
