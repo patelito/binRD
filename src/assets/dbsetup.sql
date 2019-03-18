@@ -46,3 +46,5 @@ INSERT INTO categories(name) VALUES ('Vehiculos');
 INSERT INTO categories(name) VALUES ('Inmuebles');
 INSERT INTO categories(name) VALUES ('Electronicos');
 INSERT INTO categories(name) VALUES ('Hogar');
+
+INSERT INTO users( name, username, avatar, phone, password, email) VALUES ('Jonathan', 'jtaveras', 'http://cdn.onlinewebfonts.com/svg/img_258083.png', '213421', '123', 'jt@mail.com');

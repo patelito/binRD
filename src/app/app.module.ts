@@ -22,6 +22,8 @@ import { HttpModule } from '@angular/http';
 import { SQLitePorter } from '@ionic-native/sqlite-porter';
 import { SQLite } from '@ionic-native/sqlite';
 
+import { CallNumber } from '@ionic-native/call-number';
+
 import { Camera } from '@ionic-native/camera';
 
 @NgModule({
@@ -63,7 +65,8 @@ import { Camera } from '@ionic-native/camera';
     DatabaseProvider,
     SQLitePorter,
     SQLite,
-    Camera
+    Camera,
+    CallNumber,
   ]
 })
 export class AppModule {}

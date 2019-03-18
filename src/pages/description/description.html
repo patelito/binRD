@@ -6,43 +6,31 @@
 
 <ion-content class="container-content" >
   <ion-card class="container-card"> 
-      <img src="https://cdn-yams.schibsted.com/api/v1/tenants/dd1f88aa-e3e2-450c-9fa9-a03ea59a6bf0/domains/57a9d53a-fe30-4b6f-a4de-d624bd25134b/buckets/a4371201-ebab-47eb-b797-74238f668ee7/images/d6/d63042f8-5384-4238-81db-4e8977ebb14f?rule=progressive" />
+<ion-img [src]="post.image" [width]="width" height="320"></ion-img>
       <ion-card-content >
       <ion-row class="row-card-header">
         <ion-row class="row-profile-info">
-          <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg"
+          <ion-img class="img-profile" [src]="post.avatar"
             width="30" height="30"></ion-img>
-          <h3 class="user-name">johndoe</h3>
+          <h3 class="user-name">{{post.username}}</h3>
         </ion-row>
       </ion-row>
       <ion-row class="row-info-header">
-        <h2 class="description-subtitle">FrogX Mustang</h2>
+        <h2 class="description-subtitle">{{post.title}}</h2>
         <ion-card-title class="price-title">
-          RD$ 500,000.00
+          RD$ {{post.price}}
         </ion-card-title>
       </ion-row>
       <ion-col>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-      </ion-col>
-       <ion-col>
-          <ion-row align-items-center>
-            <ion-icon class="icon-info" name="star"></ion-icon>
-            <p>Calle Nuñez de Caceres, esq Roberto Pastoriza</p>
-          </ion-row>
-
-          <ion-row align-items-center>
-            <ion-icon class="icon-info" name="md-cash"></ion-icon>
-            <p>Negociable: Sí</p>
-          </ion-row>
-       </ion-col>      
+        <p>{{post.description}}</p>
+      </ion-col> 
       </ion-card-content>
   </ion-card>
   <ion-item text-wrap style="padding-bottom:30px">
       <h2 style="padding-bottom:10px">Multimedia</h2>
-      <button class="media" ion-button clear *ngFor="let media of selectedMedia">
+      <button class="media" ion-button clear *ngFor="let media of multimedia">
         <ion-thumbnail>
-          <ion-img [src]="media.thumbnail"></ion-img>
+          <ion-img [src]="media.image"></ion-img>
         </ion-thumbnail>
       </button>
     </ion-item>
@@ -51,11 +39,8 @@
 </ion-content>
 <ion-footer>
   <ion-row justify-content-center class="row-options">
-    <button ion-button color="secondary" class="button-call">
+    <button ion-button (click)="contactSeller(post.phone)" color="secondary" class="button-call">
       Contactar
-    </button>
-    <button ion-button icon-only round clear >
-      <ion-icon name="ios-bookmark-outline"></ion-icon>
     </button>
   </ion-row>
 </ion-footer>
