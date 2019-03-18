@@ -65,14 +65,6 @@ export class DatabaseProvider {
     })
   }
 
-<<<<<<< HEAD
-  fillWithDummyData() {
-    const user = this.database.executeSql(
-      "INSERT INTO users (name, username, avatar, phone, password, email) \
-        VALUES ('Jonathan', 'jtaveras', 'https://image.flaticon.com/icons/png/512/236/236832.png', '25622', '123', 'jt@mail.com')"
-      ).then( data => { return data}, err => { console.log("ERROR: ", err)} );
-      return user;
-=======
   getCategories() {
     return this.database.executeSql("SELECT * FROM categories", []).then((data) => {
       let categories = [];
@@ -96,7 +88,6 @@ export class DatabaseProvider {
       console.log('Error: ', err);
       return err;
     });
->>>>>>> 89728b3c008b2c820141d6a66462dc072547ced9
   }
 
   createUser(nombre, usuario, avatar, phone, password, email) {
