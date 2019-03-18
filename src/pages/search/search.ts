@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DatabaseProvider } from '../../providers/database/database';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the SearchPage page.
@@ -34,6 +35,8 @@ export class SearchPage {
 
   selectCategory(category) {
     console.log('CATEGORY SELECTED', category);
+    this.navCtrl.push(HomePage, {catId: category.id});
+    console.log('after push');
   }
 
   searchSubmit(ev: any) {

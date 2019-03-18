@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular';
+import { NavController, Platform, NavParams } from 'ionic-angular';
 import { CallNumber } from '@ionic-native/call-number';
 import { Description } from '../description/description';
 import { DatabaseProvider } from '../../providers/database/database';
@@ -13,7 +13,7 @@ export class HomePage {
   bookmarks: Number[];
   selectedPost: Number;
 
-  constructor(public navCtrl: NavController, private databaseprovider: DatabaseProvider, public callNumber: CallNumber) {
+  constructor(public navCtrl: NavController, private databaseprovider: DatabaseProvider, private navParams: NavParams, public callNumber: CallNumber) {
     
     
   }
@@ -28,7 +28,13 @@ export class HomePage {
   }
 
   loadData() {
-    this.databaseprovider.getAllPost().then( data=> {
+    let func = this.databaseprovider.getAllPost();
+    if(this.navParams.data.catId) {
+      console.log('has thing', this.navParams.data.catId);
+      func = this.databaseprovider.getPostsByCategory(this.navParams.data.catId);
+    }
+    
+    func.then( data=> {
       console.log("DATA: ", data);
       this.posts = [...data];
     })
