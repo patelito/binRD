@@ -71,7 +71,9 @@ export class ProfilePage {
     this.camera.getPicture( options )
     .then(imageData => {
       this.avatar = `data:image/jpeg;base64,${imageData}`;
-      this.databaseProvider.editUser(this.id, this.name, this.userName, this.avatar, this.phone, this.password, this.email);
+      this.databaseProvider.editUser(this.id, this.name, this.userName, this.avatar, this.phone, this.password, this.email).then(data => {
+        console.log("Dique guarda", data);
+      });
     })
     .catch(error =>{
       console.error( error );

@@ -101,7 +101,7 @@ export class DatabaseProvider {
 
   editUser(id, nombre, usuario, avatar, phone, password, email){
     let data = [nombre, usuario, avatar, phone, password, email, id];
-    return this.database.executeSql("UPDATE users SET name = ?, usuername = ?, avatar = ?, phone = ?, password = ?, email = ? WHERE id = ? ").then(data => {
+    return this.database.executeSql("UPDATE users SET name = ?, username = ?, avatar = ?, phone = ?, password = ?, email = ? WHERE id = ? ",data).then(data => {
       return data;
     }, err => {
       console.log("Error: ", err)
