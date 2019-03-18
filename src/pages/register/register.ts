@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { RegisterStepTwo } from '../registerStepTwo/registerStepTwo';
 /**
  * Generated class for the RegisterPage page.
  *
@@ -17,7 +18,6 @@ export class RegisterPage {
 
   nombre:string;
   apellido:string;
-  mail:string;
   telefono:string;
   password:string;
   repassword:string;
@@ -29,7 +29,7 @@ export class RegisterPage {
   }
 
   register() {
-    if(this.nombre == null || this.apellido == null || this.telefono == null || this.mail == null || this.password == null || this.repassword == null)
+    if(this.nombre == null || this.apellido == null || this.telefono == null || this.password == null || this.repassword == null)
     {
       alert("Completar los campos");
     }
@@ -41,14 +41,20 @@ export class RegisterPage {
       }
       else
       {
-        
-        this.navCtrl.pop();
 
+        this.navCtrl.push(RegisterStepTwo, {
+          nombre: this.nombre + ' ' + this.apellido,
+          telefono: this.telefono,
+          password: this.password
+        });
+        //this.navCtrl.pop();
       }
     }
   }
 
-  goLogin() {
+  goBack() {
     this.navCtrl.pop();
   }
+
+
 }

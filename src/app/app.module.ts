@@ -14,6 +14,7 @@ import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { ProfilePage } from '../pages/profile/profile';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register'
+import { RegisterStepTwo } from '../pages/registerStepTwo/registerStepTwo'
 import { Description } from '../pages/description/description';
 import { DatabaseProvider } from '../providers/database/database';
 
@@ -37,7 +38,8 @@ import { Camera } from '@ionic-native/camera';
     LoginPage,
     RegisterPage,
     TabsPage,
-    Description
+    Description,
+    RegisterStepTwo
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,8 @@ import { Camera } from '@ionic-native/camera';
     LoginPage,
     RegisterPage,
     TabsPage,
-    Description
+    Description,
+    RegisterStepTwo
   ],
   providers: [
     StatusBar,

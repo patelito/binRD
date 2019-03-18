@@ -12,17 +12,10 @@
     <ion-item>
       <ion-input placeholder="Introduce tu nombre" [(ngModel)]="nombre"></ion-input>
     </ion-item>
-
     
     <h6 class="input-label">Apellido</h6>
     <ion-item>
       <ion-input placeholder="Introduce tu apellido" [(ngModel)]="apellido"></ion-input>
-    </ion-item>
-
-    
-    <h6 class="input-label">Mail</h6>
-    <ion-item>
-      <ion-input placeholder="Introduce tu mail" [(ngModel)]="mail"></ion-input>
     </ion-item>
 
     <h6 class="input-label">Telefono</h6>
@@ -42,5 +35,5 @@
   </ion-list>
   
   <button ion-button full color="secondary" (click)="register()">Siguiente</button>
-  <button ion-button full color="light" (click)="goLogin()">Ya tengo una cuenta</button>
+  <button ion-button full color="light" (click)="goBack()">Ya tengo una cuenta</button>
 </ion-content>

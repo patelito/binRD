@@ -7,7 +7,6 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
-import { P } from '@angular/core/src/render3';
 
 // TODO: Get username in posts
 const QUERY_GET_ALL_POSTS = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id";
@@ -59,6 +58,21 @@ export class DatabaseProvider {
           .catch(e => console.error(e));
       });
   }
+  getUserByUserId(userId: number){
+    let data = [userId];
+    return this.database.executeSql("SELECT * FROM USERS WHERE id =  (?)", data).then(data => {
+      return {id: data.rows.item(0).id,
+                    name: data.rows.item(0).name, 
+                    username: data.rows.item(0).username, 
+                    avatar: data.rows.item(0).avatar,
+                    phone: data.rows.item(0).phone,
+                    password: data.rows.item(0).password,
+                    email: data.rows.item(0).email};
+    }).catch(err => {
+      console.log("It does not work", err);
+      return err
+    })
+  }
 
   // Get categories
   getCategories() {
@@ -85,6 +99,47 @@ export class DatabaseProvider {
     }, err => {
       console.log('Error: ', err);
       return err;
+    });
+  }
+
+  createUser(nombre, usuario, avatar, phone, password, email) {
+    let data = [nombre, usuario, avatar, phone, password, email]
+    return this.database.executeSql("INSERT INTO users (name, username, avatar, phone, password, email) VALUES (?, ?, ?, ?, ?, ?)", data).then(data => {
+      return data;
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
+  editUser(id, nombre, usuario, avatar, phone, password, email){
+    let data = [nombre, usuario, avatar, phone, password, email, id];
+    return this.database.executeSql("UPDATE users SET name = ?, usuername = ?, avatar = ?, phone = ?, password = ?, email = ? WHERE id = ? ").then(data => {
+      return data;
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
+  getUser(email, username) {
+    let data = [email, username]
+    return this.database.executeSql("SELECT * FROM users WHERE email = ? OR username = ? ", data).then(data => {
+      return data;
+    }, err => {
+      console.log("Error: ", err)
+    });
+  }
+
+  validateUser(username, password) {
+    let data = [username, password]
+    return this.database.executeSql("SELECT * FROM users WHERE username = ? AND password = ? ", data).then(data => {
+      if(data.rows.length > 0)
+      {
+        this.storage.set('userid', data.rows.item(0).id);
+        return true
+      }
+      return "Usuario o contrasena incorrecto"
+    }, err => {
+      console.log("Error: ", err)
     });
   }
 
@@ -271,3 +326,14 @@ export class DatabaseProvider {
 
 
 }
+
+
+/*CREATE TABLE IF NOT EXISTS users(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR,
+  username VARCHAR UNIQUE,
+  avatar VARCHAR,
+  phone VARCHAR,
+  password VARCHAR,
+  email VARCHAR
+);*/
