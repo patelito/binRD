@@ -10,7 +10,7 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  posts: Object[];
+  posts: any[];
   bookmarks = [];
   bookmarked : Boolean[];
   selectedPost: Number;
@@ -60,7 +60,7 @@ export class HomePage {
 
         this.bookmarked = [];
         for (let i=0; i<data.length; i++) {
-          if(bookmarkedIds.includes(data[i].postId)) {
+          if(bookmarkedIds.indexOf(data[i].postId) >= 0) {
             this.bookmarked.push(true);
           } else {
             this.bookmarked.push(false);
@@ -72,7 +72,7 @@ export class HomePage {
   }
 
   getBookmarked(postId) {
-    if(this.bookmarks.includes(postId)) {
+    if(this.bookmarks.indexOf(postId) >= 0) {
       return true;
     } else {
       return false;

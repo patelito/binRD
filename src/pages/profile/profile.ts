@@ -28,6 +28,7 @@ export class ProfilePage {
   phone: string;
   password: string;
   email: string;
+  posts: any[];
 
 
   constructor(public app: App, public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public databaseProvider: DatabaseProvider, private camera: Camera) {
@@ -42,8 +43,26 @@ export class ProfilePage {
     })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ProfilePage');
+  ionViewDidEnter() {
+    this.databaseProvider.getDatabaseState().subscribe( rdy => {
+      if( rdy ) {
+        this.storage.get('userid').then(uid => {
+          return this.loadData(uid)
+        });
+        
+      }
+    })
+  }
+
+  loadData(uid) {
+    
+    this.databaseProvider.getPostsByUserId(uid).then( data=> {
+      console.log("DATA USER: ", data);
+        this.posts = data;
+    }).catch(err => {
+      console.log("Deez Nuts", err)
+      return err;
+    })
   }
 
   getUserInfoById(userId: number){

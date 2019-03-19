@@ -32,30 +32,38 @@
             <h3>Tus anuncios</h3>
           </ion-row>
     </ion-grid>
-    <ion-card class="container-card container-card-top" >
-        <ion-card-header class="container-card-header">
-            <ion-row class="row-card-header">
-              <ion-row class="row-profile-info" >
-                <ion-img class="img-profile" src="http://cdn-cv.r4you.co/wp-content/uploads/2015/009/img/noticias/sapinhp.jpg" width="30" height="30"></ion-img>
-                <h3 class="user-name">johndoe</h3>
+
+    <ion-list>
+      
+        <ion-card class="container-card" *ngFor="let post of posts; let i = index">
+        
+            <img [src]="post.image" />
+            <ion-card-content>
+              <ion-row class="row-container-info-buttons">
+                <ion-col class="col-container-info">
+                  <ion-card-title class="price-title">
+                    RD$ {{post.price}}
+                  </ion-card-title>
+                  <h2 class="description-subtitle">{{post.title}}</h2>
+                </ion-col>
+        
+                <ion-col>
+                  <ion-row justify-content-end>
+                    <button (click)='goToDescription(post.postId)' ion-button icon-only color="primary" class="button-view">
+                      <ion-icon name="md-eye"></ion-icon>
+                    </button>
+                    <button ion-button icon-only (click)="contactSeller(post.phone)" color="secondary" class="button-call">
+                      <ion-icon name="call"></ion-icon>
+                    </button>
+                  </ion-row>
+                </ion-col>
+        
               </ion-row>
-              <button ion-button icon-only clear >
-                <ion-icon  name="ios-bookmark-outline"></ion-icon>
-              </button>
-            </ion-row>
-          </ion-card-header>
-
-        <img src="https://cdn-yams.schibsted.com/api/v1/tenants/dd1f88aa-e3e2-450c-9fa9-a03ea59a6bf0/domains/57a9d53a-fe30-4b6f-a4de-d624bd25134b/buckets/a4371201-ebab-47eb-b797-74238f668ee7/images/ec/ece1cc7a-6608-4958-af1b-a39fd03a1c77?rule=progressive" />
-
-        <ion-card-content >
-          <ion-row class="row-container-info-buttons">
-            <ion-col class="col-container-info">
-              <ion-card-title class="price-title">
-                RD$ 500,000.00
-              </ion-card-title>
-              <h2 class="description-subtitle">FrogX Mustang</h2>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-    </ion-card>
+        
+        
+        
+            </ion-card-content>
+          </ion-card>
+    </ion-list>
+    
 </ion-content>

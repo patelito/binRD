@@ -21,6 +21,7 @@ const QUERY_GET_POSTS_BOOKMARKED_BY_USER = "SELECT postId FROM bookmarks WHERE u
 const QUERY_POSTS_BY_CATEGORY = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.categoryId = (?) ORDER BY posts.id DESC";
 const QUERY_POSTS_BY_NAME = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.name LIKE (?) ORDER BY posts.id DESC";
 const QUERY_BOOKMARKED_POST_RES = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (SELECT postId FROM bookmarks WHERE userId = (?)) ORDER BY posts.id DESC";
+const QUERY_GET_POSTS_BY_USERID = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.UserId = (?) ORDER BY posts.id DESC";
 
 @Injectable()
 export class DatabaseProvider { 
@@ -260,6 +261,31 @@ export class DatabaseProvider {
         return [];
       });
   };
+  
+  getPostsByUserId(userId: number) {
+    return this.database.executeSql(QUERY_GET_POSTS_BY_USERID, [userId]).then( data => {
+        let posts = [];
+        if ( data.rows.length > 0 ){
+          for (var i = 0; i < data.rows.length; i++) {
+            posts.push(
+              { 
+                postId: data.rows.item(i).id,
+                title: data.rows.item(i).name, 
+                price: data.rows.item(i).price, 
+                image: data.rows.item(i).featuredImageData,
+                username: data.rows.item(i).username,
+                avatar: data.rows.item(i).avatar,
+                phone: data.rows.item(i).phone
+              })
+          }
+        }
+        return posts;
+      }, err => {
+        console.log('Error fetching posts!: ', err)
+        return [];
+      });
+  };
+
 
   // Get bookmarks from user
   // getBookmarks( idUser ) {
