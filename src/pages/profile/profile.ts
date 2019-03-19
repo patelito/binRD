@@ -5,6 +5,8 @@ import { LoginPage } from '../login/login';
 import { DatabaseProvider } from '../../providers/database/database';
 import { Storage } from '@ionic/storage';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { CallNumber } from '@ionic-native/call-number';
+import { Description } from '../description/description';
 
 
 
@@ -31,7 +33,7 @@ export class ProfilePage {
   posts: any[];
 
 
-  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public databaseProvider: DatabaseProvider, private camera: Camera) {
+  constructor(public app: App, public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public databaseProvider: DatabaseProvider, private camera: Camera, public callNumber: CallNumber) {
     this.storage.get('userid').then(val => {
       console.log(val);
       this.databaseProvider.getDatabaseState().subscribe(ready => {
@@ -103,5 +105,11 @@ export class ProfilePage {
         console.log('logout');
         this.app.getRootNav().popToRoot();
   }
+  goToDescription(postId) {
+    this.navCtrl.push(Description, { postId });
+  }
 
+  contactSeller(phone) {
+    this.callNumber.callNumber(`${phone}`, true);
+  }
 }

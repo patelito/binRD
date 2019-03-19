@@ -381,6 +381,7 @@ export class DatabaseProvider {
               image: data.rows.item(i).featuredImageData,
               username: data.rows.item(i).username,
               avatar: data.rows.item(i).avatar,
+              phone: data.rows.item(i).phone,
             })
         }
         post = arrPost[0];

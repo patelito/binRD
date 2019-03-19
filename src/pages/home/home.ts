@@ -86,7 +86,6 @@ export class HomePage {
   }
 
   goToDescription( postId ) {
-    console.log("POST SELECTED: ", postId)
     this.navCtrl.push(Description, { postId });
   }
 
