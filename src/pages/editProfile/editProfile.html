@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Editar perfil</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+
+    <h6 class="input-label">Nombre</h6>
+    <ion-item>
+      <ion-input [placeholder]="name" [(ngModel)]="newName"></ion-input>
+    </ion-item>
+
+    <h6 class="input-label">Mail</h6>
+    <ion-item>
+      <ion-input [placeholder]="mail" [(ngModel)]="newMail"></ion-input>
+    </ion-item>
+
+    <h6 class="input-label">Telefono</h6>
+    <ion-item>
+      <ion-input [placeholder]="phone" [(ngModel)]="newPhone"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button full color="secondary" (click)="updateInfo()">Guardar</button>
+</ion-content>

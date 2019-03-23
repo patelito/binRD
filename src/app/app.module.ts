@@ -12,6 +12,7 @@ import { SearchPage } from '../pages/search/search';
 import { AddPage } from '../pages/add/add';
 import { BookmarksPage } from '../pages/bookmarks/bookmarks';
 import { ProfilePage } from '../pages/profile/profile';
+import { EditProfile } from '../pages/editProfile/editProfile';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register'
 import { RegisterStepTwo } from '../pages/registerStepTwo/registerStepTwo'
@@ -35,6 +36,7 @@ import { Camera } from '@ionic-native/camera';
     AddPage,
     BookmarksPage,
     ProfilePage,
+    EditProfile,
     LoginPage,
     RegisterPage,
     TabsPage,
@@ -55,6 +57,7 @@ import { Camera } from '@ionic-native/camera';
     AddPage,
     BookmarksPage,
     ProfilePage,
+    EditProfile,
     LoginPage,
     RegisterPage,
     TabsPage,

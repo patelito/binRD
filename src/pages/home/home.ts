@@ -49,7 +49,7 @@ export class HomePage {
     } else if (this.onlyBooked) {
       func = this.databaseprovider.getBookmarkedPostsResult(uid);
     } else {
-      func = this.databaseprovider.getAllPost()
+      func = this.databaseprovider.getAllPost(uid)
     }
 
     func.then( data=> {

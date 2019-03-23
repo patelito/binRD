@@ -1,4 +1,4 @@
-page-profile {
+page-editProfile {
     .img-profile {
         border-radius: 50%;
         width: 100px;
@@ -11,12 +11,14 @@ page-profile {
     }
     .contact-info{
       font-size: 12px;
-      color: #34495e;
+      color: #d3d3d3;
 
     }
     .profile-info{
       position: relative;
+      top: -30px;
     }
+
     .container-content {
       justify-content: center;
       align-items: center;
@@ -57,7 +59,7 @@ page-profile {
        font-weight: 400;
     }
     .button-call {
-      background-color: #e74c3c;
+      background-color: #2ecc71;
       width: 50%;
       box-shadow: none;
     }

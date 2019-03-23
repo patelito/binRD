@@ -14,29 +14,29 @@
   <ion-list>
 
     <ion-item>
-      <ion-label color="dark" floating>Titulo</ion-label>
+      <ion-label color="Dark"  floating><b>Titulo</b></ion-label>
       <ion-input [(ngModel)]="title"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label color="dark">Precio RD$</ion-label>
+      <ion-label color="Dark" ><b>Precio RD$</b></ion-label>
       <ion-input [(ngModel)]="price" type="number" placeholder=0.00></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label color="dark">Categoría</ion-label>
+      <ion-label color="Dark" ><b>Categoría</b></ion-label>
       <ion-select [(ngModel)]="selectedCategory">
         <ion-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</ion-option>
       </ion-select>
     </ion-item>
  
     <ion-item>
-      <ion-label color="dark" stacked>Descripción</ion-label>
+      <ion-label color="Dark" stacked><b>Descripción</b></ion-label>
       <ion-textarea [(ngModel)]="description" rows="10" placeholder="Describa su articulo lo mas detalladamente posible"></ion-textarea>
     </ion-item>
     
     <ion-item text-wrap>
-      <h2 style="padding-bottom:10px">Multimedia</h2>
+      <h2 style="padding-bottom:10px"><b>Multimedia</b></h2>
       <button class="media" ion-button clear *ngFor="let media of selectedMedia" (click)="removePicture(media)">
         <ion-thumbnail>
           <img [src]="media"/>

@@ -7,6 +7,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Perfil</ion-title>
+       <ion-buttons end>
+         <button ion-button icon-only (click)='goToEditProfile()'>
+           <ion-icon name="options"></ion-icon>
+         </button>
+       </ion-buttons>
   </ion-navbar>
 </ion-header>
 <ion-content force-overscroll=true>
@@ -15,11 +20,15 @@
             <ion-col col-8 class="profile-info">
               <h2 class ="profile-name">{{name}}</h2>
               <h6>@{{userName}}</h6>
+               
             </ion-col>
             <ion-col col-4 style="text-align: right">
-                    <ion-img class="img-profile" [src]="avatar" (click) ="getPicture()"></ion-img>
-                    <button ion-button color="danger" round (click)="logout()">Log Out</button>
+              <ion-img class="img-profile" [src]="avatar" (click) ="getPicture()"></ion-img>
+              <button ion-button color="danger" round (click)="logout()">
+                <p>Log out</p>
+              </button>
             </ion-col>
+           
           </ion-row>
           <ion-row class="profile-info">
             <ion-col>
@@ -49,19 +58,17 @@
         
                 <ion-col>
                   <ion-row justify-content-end>
-                    <button (click)='goToDescription(post.postId)' ion-button icon-only color="primary" class="button-view">
+                    <button round (click)='goToDescription(post.postId)' ion-button icon-only color="primary"
+                      class="button-view">
                       <ion-icon name="md-eye"></ion-icon>
                     </button>
-                    <!-- <button ion-button icon-only (click)="contactSeller(post.phone)" color="secondary" class="button-call">
-                      <ion-icon name="call"></ion-icon>
-                    </button> -->
+                    <button ion-button color="danger" round (click)="showConfirmationDelete(post.postId)">
+                      <ion-icon name="trash"></ion-icon>
+                    </button>
                   </ion-row>
                 </ion-col>
         
-              </ion-row>
-        
-        
-        
+              </ion-row>        
             </ion-card-content>
           </ion-card>
     </ion-list>

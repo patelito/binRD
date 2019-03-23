@@ -8,20 +8,33 @@ import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/Rx';
 import { Storage } from '@ionic/storage';
 
-// TODO: Get username in posts
+/* <------------QUERIES-------------------------------------------------------> */
+
+// SELECT
 const QUERY_GET_ALL_POSTS = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id ORDER BY posts.id DESC";
 const QUERY_GET_DESCRIPTION = "SELECT posts.featuredImageData, posts.price, posts.name, users.username, posts.negotiable FROM posts WHERE posts.id = (?) INNER JOIN posts.userId = (users.id = (?))";
 const QUERY_GET_ALL_CATEGORIES = "SELECT * FROM categories";
-const QUEY_INSERT_NEW_POST = "INSERT INTO posts (name, description, price, userId, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?, ?)";
-const QUERY_INSERT_MEDIA = "INSERT INTO multimedia (postId, mediaData) VALUES (?, ?);";
+const QUERY_GET_POST = "SELECT posts.name, posts.price, posts.description, posts.featuredImageData, users.username, users.avatar, users.phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id = (?)";
 const QUERY_GET_POSTS_BY_IDS = "SELECT posts.name, posts.price, posts.featuredImageData, users.username FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (?) ORDER BY posts.id DESC";
 const QUERY_GET_MULTIMEDIA_FROM_POST = "SELECT mediaData FROM multimedia WHERE multimedia.postId = (?)";
-const QUERY_GET_POST = "SELECT posts.name, posts.price, posts.description, posts.featuredImageData, users.username, users.avatar, users.phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id = (?)";
 const QUERY_GET_POSTS_BOOKMARKED_BY_USER = "SELECT postId FROM bookmarks WHERE userId = (?)";
-const QUERY_POSTS_BY_CATEGORY = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.categoryId = (?) ORDER BY posts.id DESC";
-const QUERY_POSTS_BY_NAME = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.name LIKE (?) ORDER BY posts.id DESC";
-const QUERY_BOOKMARKED_POST_RES = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (SELECT postId FROM bookmarks WHERE userId = (?)) ORDER BY posts.id DESC";
+const QUERY_GET_USER = "SELECT * FROM users WHERE email = ? OR username = ? ";
+const QUERY_GET_USER_FOR_VALIDATE = "SELECT * FROM users WHERE username = ? AND password = ? ";
+const QUERY_GET_USER_BY_ID = "SELECT * FROM users WHERE users.id = (?)";
+const QUERY_GET_POST_BY_CATEGORY = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.categoryId = (?) ORDER BY posts.id DESC";
+const QUERY_GET_POST_BY_NAME = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.name LIKE (?) ORDER BY posts.id DESC";
+const QUERY_GET_BOOKMARKED = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.id IN (SELECT postId FROM bookmarks WHERE userId = (?)) ORDER BY posts.id DESC";
 const QUERY_GET_POSTS_BY_USERID = "SELECT posts.id, posts.name, posts.price, posts.featuredImageData, users.username AS username, users.avatar AS avatar, users.phone AS phone FROM posts INNER JOIN users ON posts.userId = users.id WHERE posts.UserId = (?) ORDER BY posts.id DESC";
+
+// INSERT
+const QUEY_INSERT_NEW_POST = "INSERT INTO posts (name, description, price, userId, categoryId, featuredImageData) VALUES (?, ?, ?, ?, ?, ?)";
+const QUERY_INSERT_MEDIA = "INSERT INTO multimedia (postId, mediaData) VALUES (?, ?);";
+const QUERY_INSERT_USERS = "INSERT INTO users (name, username, avatar, phone, password, email) VALUES (?, ?, ?, ?, ?, ?)"
+
+// UPDATE
+const QUERY_UPDATE_USERS = "UPDATE users SET name = (?), phone = (?), email = (?) WHERE users.id = (?) "
+
+/* -----------------------------------------------------------------------------*/
 
 @Injectable()
 export class DatabaseProvider { 
@@ -93,7 +106,7 @@ export class DatabaseProvider {
   }
 
   getPostsByCategory(catId) {
-    return this.database.executeSql(QUERY_POSTS_BY_CATEGORY, [catId]).then( data => {
+    return this.database.executeSql(QUERY_GET_POST_BY_CATEGORY, [catId]).then( data => {
       let posts = [];
       if ( data.rows.length > 0 ){
         for (var i = 0; i < data.rows.length; i++) {
@@ -118,7 +131,7 @@ export class DatabaseProvider {
   }
 
   getBookmarkedPostsResult(userId) {
-    return this.database.executeSql(QUERY_BOOKMARKED_POST_RES, [userId]).then( data => {
+    return this.database.executeSql(QUERY_GET_BOOKMARKED, [userId]).then( data => {
       let posts = [];
       if ( data.rows.length > 0 ){
         for (var i = 0; i < data.rows.length; i++) {
@@ -143,7 +156,7 @@ export class DatabaseProvider {
   }
 
   getPostsByName(name) {
-    return this.database.executeSql(QUERY_POSTS_BY_NAME, [`%${name}%`]).then( data => {
+    return this.database.executeSql(QUERY_GET_POST_BY_NAME, [`%${name}%`]).then( data => {
       let posts = [];
       if ( data.rows.length > 0 ){
         for (var i = 0; i < data.rows.length; i++) {
@@ -192,19 +205,46 @@ export class DatabaseProvider {
     
   }
 
+  deletePost( postId ) {
+    let data = [ postId ];
+    return this.database.executeSql("DELETE FROM posts WHERE id = (?)", data).then(dt =>{
+      console.log("POST DELETED! ", postId);
+    }, err => console.log("ERROR DELETING POST!"))
+  }
+
   createUser(nombre, usuario, avatar, phone, password, email) {
     let data = [nombre, usuario, avatar, phone, password, email]
-    return this.database.executeSql("INSERT INTO users (name, username, avatar, phone, password, email) VALUES (?, ?, ?, ?, ?, ?)", data).then(data => {
+    return this.database.executeSql(QUERY_INSERT_USERS, data).then(data => {
       return data;
     }, err => {
       console.log("Error: ", err)
     });
   }
 
-  editUser(id, nombre, usuario, avatar, phone, password, email){
-    let data = [nombre, usuario, avatar, phone, password, email, id];
-    return this.database.executeSql("UPDATE users SET name = ?, username = ?, avatar = ?, phone = ?, password = ?, email = ? WHERE id = ? ",data).then(data => {
-      return data;
+  editProfilePicture(userid, avatar) {
+    let data = [avatar, userid];
+    return this.database.executeSql("UPDATE users SET avatar = (?) WHERE users.id = (?)", data).then(dt =>{
+      return dt;
+    }, err => console.log("ERROR EDITING AVATAR", err))
+  }
+
+
+  editUser(userId, nombre, phone, email){
+    let data = [nombre, phone, email, userId];
+    return this.database.executeSql(QUERY_UPDATE_USERS,data).then(data => {
+      let user = []
+      if(data.rows.length) {
+        console.log("UPDATED!: ", data.rows.item(0))
+        user.push({
+          name: data.rows.item(0).name,
+          mail: data.rows.item(0).mail,
+          phone: data.rows.item(0).phone,
+        })
+        console.log("OBJUSER: ", user)
+        return user;
+      }
+      
+      return user;
     }, err => {
       console.log("Error: ", err)
     });
@@ -212,7 +252,7 @@ export class DatabaseProvider {
 
   getUser(email, username) {
     let data = [email, username]
-    return this.database.executeSql("SELECT * FROM users WHERE email = ? OR username = ? ", data).then(data => {
+    return this.database.executeSql(QUERY_GET_USER, data).then(data => {
       return data;
     }, err => {
       console.log("Error: ", err)
@@ -221,7 +261,7 @@ export class DatabaseProvider {
 
   validateUser(username, password) {
     let data = [username, password]
-    return this.database.executeSql("SELECT * FROM users WHERE username = ? AND password = ? ", data).then(data => {
+    return this.database.executeSql(QUERY_GET_USER_FOR_VALIDATE, data).then(data => {
       if(data.rows.length > 0)
       {
         this.storage.set('userid', data.rows.item(0).id);
@@ -238,8 +278,9 @@ export class DatabaseProvider {
   }
 
   // Get all Posts
-  getAllPost() {
-    return this.database.executeSql(QUERY_GET_ALL_POSTS, []).then( data => {
+  getAllPost( userId ) {
+    const data = [ userId ]
+    return this.database.executeSql(QUERY_GET_ALL_POSTS, userId).then( data => {
         let posts = [];
         if ( data.rows.length > 0 ){
           for (var i = 0; i < data.rows.length; i++) {
@@ -433,6 +474,28 @@ export class DatabaseProvider {
     })
   }
 
+  getUsersById( userId ) {
+    const dataParam = [ userId ];
+    return this.database.executeSql(QUERY_GET_USER_BY_ID, dataParam).then( dt => {
+      let userInfo = [{}];
+      if(dt.length) {
+        userInfo.push({
+          name: dt.rows.item(0).name,
+          username: dt.rows.item(0).username,
+          avatar: dt.rows.item(0).avatar,
+          phone: dt.rows.item(0).phone,
+          mail: dt.rows.item(0).email,
+        })
+         
+      }
+      
+      return userInfo;
+
+    }, err => {
+      console.log("ERROR FETCHING USER!!", err)
+      return [];
+    })
+  }
   // Get description from a specific posts
   getDescription( idPost, idUserPost ) {
     const dataParam = [idPost, idUserPost];

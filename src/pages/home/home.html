@@ -11,8 +11,7 @@
       <ion-row class="row-card-header">
 
         <ion-row class="row-profile-info">
-          <ion-img class="img-profile" [src]="post.avatar"
-            width="30" height="30"></ion-img>
+          <img class="img-profile" [src]="post.avatar"/>
           <h3 class="user-name">{{post.username}}</h3>
         </ion-row>
 
@@ -34,10 +33,10 @@
 
         <ion-col>
           <ion-row justify-content-end>
-            <button (click)='goToDescription(post.postId)' ion-button icon-only color="primary" class="button-view">
+            <button round (click)='goToDescription(post.postId)' ion-button icon-only color="primary" class="button-view">
               <ion-icon name="md-eye"></ion-icon>
             </button>
-            <button ion-button icon-only (click)="contactSeller(post.phone)" color="secondary" class="button-call">
+            <button ion-button round icon-only (click)="contactSeller(post.phone)" color="secondary" class="button-call">
               <ion-icon name="call"></ion-icon>
             </button>
           </ion-row>
